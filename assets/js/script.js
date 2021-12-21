@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let button of buttons) {
         button.addEventListener('click', function() {
             if (this.getAttribute('data-type') === 'submit') {
-                alert('You clicked submit!')
+                checkAnswer();
             } else {
                 let gameType = this.getAttribute('data-type');
                 runGame(gameType);
@@ -36,20 +36,56 @@ function runGame(gameType) {
     }
 }
 
+/**
+ * Check the answer against the first element in
+ * the return calculateCorrectAnswer array
+ */
 function checkAnswer() {
+    let userAnswer = parseInt(document.getElementById('answer-box').value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
 
+    if (isCorrect) {
+        incrementScore();
+        alert('You got it right! :D');
+    } else {
+        incrementWrongScore();
+        alert(`Aww... you answered ${userAnswer}. The correct answer is ${calculatedAnswer[0]}`);
+    }
+    runGame(calculatedAnswer[1]);
 }
 
+/**
+ * Gets the operands (the numbers) and the operator (plus, minus etc)
+ * directly from the dom, returns the correct answer.
+ */
 function calculateCorrectAnswer(){
+    let operand1 = parseInt(document.getElementById('operand1').innerText);
+    let operand2 = parseInt(document.getElementById('operand2').innerText);
+    let operator = document.getElementById('operator').innerText;
 
+    if(operator === '+') {
+        return [operand1 + operand2, 'addition'];   //returns = (1) the value bet 2 operands, and (2) its game type
+    } else {
+        alert(`Unimplemented operator: ${operator}`);
+        throw `Unimplemente operator: ${operator}. Aborting!`
+    }
 }
 
+/**
+ * Gets the current score from DOM and increment it by 1
+ */
 function incrementScore() {
-
+    let oldScore = parseInt(document.getElementById('score').innerText);
+    document.getElementById('score').innerText = ++oldScore;
 }
 
+/**
+ * Get the current tally of increment answers from the DOM and increments it by 1
+ */
 function incrementWrongScore() {
-
+    let oldScore = parseInt(document.getElementById('incorrect').innerText);
+    document.getElementById('incorrect').innerText = ++oldScore;
 }
 
 function displayAdditionQuestion( operand1, operand2) {
