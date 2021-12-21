@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
     }
+    document.getElementById('answer-box').addEventListener('keydown', function(event) {
+        event.key === 'Enter';
+        checkAnswer();
+    })
 //default game
     runGame('addition');
     
@@ -24,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * and after the user's answer has been processed
  */
 function runGame(gameType) {
+    document.getElementById('answer-box').textContent = '';
     //creates two random nubers from 1 to 25
     let num1 = Math.floor(Math.random() * 25) + 1;
     let num2 = Math.floor(Math.random() * 25) + 1;
